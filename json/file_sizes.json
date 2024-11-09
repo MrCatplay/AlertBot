@@ -17478,10 +17478,10 @@
         "npmpublish.yml": 840
     },
     "function": {
-        "discordbot.js": 1933,
-        "compound.js": 2920,
-        "blacklist.js": 681,
-        "main.js": 3918,
-        "player.js": 4900
+        "discordbot.js": 1977,
+        "compound.js": 3003,
+        "blacklist.js": 701,
+        "main.js": 4024,
+        "player.js": 5043
     }
 }
