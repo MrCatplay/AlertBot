@@ -1,7 +1,7 @@
 
 // Импортируем библиотеку anarflayer
 const anarflayer = require("anarflayer");
-const { ec } = require('./Save_sword/ec_locater.js')
+const { save } = require('./Save_sword/save.js')
 const { player } = require('./player_detector/player.js')
 const { loadOrCreateBlacklist } = require('./blacklist.js')
 const path = require('path')
@@ -36,10 +36,10 @@ function writeBlacklist(blacklist) {
 
 // Создание клиента для подключения к серверу Minecraft
 const bot = anarflayer.createBot({
-  host: "fra.holyworld.me", // Адрес сервера
+  host: "localhost", // Адрес сервера
   username: process.argv[3], // Имя пользователя
-  port: 25565, // Порт
-  version: '1.19.2', // Версия
+  port: 5001, // Порт
+  version: '1.16.5', // Версия
   hideErrors: false
 });
 
@@ -101,7 +101,7 @@ bot.on('messagestr', (message) => {
 
 bot.on('messagestr', (message) => {
   if (message.includes('test_ec')) {
-    ec(bot)
+    save(bot)
   }
 })
 

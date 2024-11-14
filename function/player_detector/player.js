@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path = 'node_modules/minecraft-data/minecraft-data/data/pc/1.19.2/effects.json'
+const path = '../node_modules/minecraft-data/minecraft-data/data/pc/1.19.2/effects.json'
 const { compound } = require('./compound.js')
 const https = require('https')
 const sharp = require('sharp')

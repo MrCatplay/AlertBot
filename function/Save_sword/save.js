@@ -1,26 +1,70 @@
-async function ec(bot) {
-    const radius = 2;
+const { ec } = require('./ec_locater.js')
+const { open_enderChest } = require("./open_enderChest.js")
+const { inventory_search, ec_search } = require("./inventory_search.js")
 
-    // Получаем текущее местоположение бота
-    const { x, y, z } = bot.entity.position;
+let swap = false
 
-    // Проходим по всем блокам в радиусе 2 блока
-    for (let dx = -radius; dx <= radius; dx++) {
-        for (let dy = -radius; dy <= radius; dy++) {
-            for (let dz = -radius; dz <= radius; dz++) {
-                // Вычисляем координаты блока
-                const blockX = Math.floor(x) + dx;
-                const blockY = Math.floor(y) + dy;
-                const blockZ = Math.floor(z) + dz;
+async function SwordInEC(bot, ec_block) {
+    const inventory = bot.currentWindow.slots;
+    const sword = await inventory_search(bot, inventory);
 
-                // Получаем блок по координатам
-                const block = bot.blockAt(new Vec3(blockX, blockY, blockZ));
-
-                // Печатаем информацию о блоке (можете добавить свои действия с блоками)
-                console.log(`Block at (${blockX}, ${blockY}, ${blockZ}): ${block.name}`);
-            }
-        }
+    if (sword.sword == null || sword.emptySlotIndex == null || sword.updatesword == null) {
+        console.log('Отсутствуют необходимые данные для перемещения меча');
+        return;
     }
+
+    try {
+        await bot.moveSlotItem(sword.sword, sword.emptySlotIndex);
+        await bot.moveSlotItem(sword.updatesword, sword.sword);
+    } catch (err) {
+        console.error('Ошибка при перемещении предметов:', err);
+    }
+
+    await bot.closeWindow(bot.currentWindow);
+
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    swap = true
+    await ec_block.then(async function (ecblock) {
+        await open_enderChest(bot, ecblock);
+    });
 }
 
-module.exports = { ec }
+async function SwordFromEC(bot) {
+    const inventory = bot.currentWindow.slots;
+    const sword = await ec_search(bot, inventory);
+
+    if (sword.sword == null || sword.emptySlotIndex == null || sword.updatesword == null) {
+        console.log('Отсутствуют необходимые данные для перемещения меча');
+        return;
+    }
+
+    try {
+        // console.log(sword)
+        await bot.moveSlotItem(sword.updatesword, sword.emptySlotIndex);
+        await bot.moveSlotItem(sword.sword, sword.updatesword);
+    } catch (err) {
+        console.error('Ошибка при перемещении предметов:', err);
+    }
+
+    swap = false
+    await bot.closeWindow(bot.currentWindow);
+}
+
+async function save(bot) {
+    const ec_block = ec(bot);
+
+    bot.on('windowOpen', async () => {
+        if (!swap) {
+            SwordInEC(bot, ec_block)
+        } else {
+            SwordFromEC(bot)
+        }
+    });
+
+    await ec_block.then(async function (ecblock) {
+        await open_enderChest(bot, ecblock);
+    });
+}
+
+module.exports = { save }
