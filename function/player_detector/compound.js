@@ -1,7 +1,7 @@
 const { promises: fs } = require('fs');
 const { join } = require('path');
 const { loadImage, createCanvas } = require('canvas');
-const { startdiscordbot } = require('./discordbot.js')
+const { startdiscordbot } = require('../discord_send/discordbot.js')
 let function_start = false
 
 const equipmentPositions = {
