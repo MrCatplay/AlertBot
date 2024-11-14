@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "anarflayer": "^1.1.0",
-    "canvas": "^2.11.2",
-    "discord.js": "^14.16.3",
-    "sharp": "^0.33.5"
-  }
-}
