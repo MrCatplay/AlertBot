@@ -1,6 +1,7 @@
 
 // Импортируем библиотеку anarflayer
 const anarflayer = require("anarflayer");
+const { ec } = require('./Save_sword/ec_locater.js')
 const { player } = require('./player.js')
 const { loadOrCreateBlacklist } = require('./blacklist.js')
 const path = require('path')
@@ -97,6 +98,12 @@ bot.on('messagestr', (message) => {
     console.log(err);
   }
 });
+
+bot.on('messagestr', (message) => {
+  if (message.includes('test_ec')) {
+    ec(bot)
+  }
+})
 
 bot.on('entityMoved', (entity) => {
   if (entity.type === 'player' && entity !== bot.entity) {
