@@ -37,10 +37,10 @@ function writeBlacklist(blacklist) {
 
 // Создание клиента для подключения к серверу Minecraft
 const bot = anarflayer.createBot({
-  host: "localhost", // Адрес сервера
+  host: "fre.holyworld.me", // Адрес сервера
   username: process.argv[3], // Имя пользователя
-  port: 5001, // Порт
-  version: '1.16.5', // Версия
+  port: 25565, // Порт
+  version: '1.19.2', // Версия
   hideErrors: false
 });
 
