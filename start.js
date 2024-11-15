@@ -151,7 +151,7 @@ async function main() {
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
   const command = `node function/main.js ${config.discordwebhook} ${config.username} ${config.mainusername} ${config.anarchy}`;
-  // console.log(command)
+  console.log(command)
   exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Ошибка выполнения: ${error.message}`);

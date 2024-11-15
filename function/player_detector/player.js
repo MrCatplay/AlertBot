@@ -1,6 +1,7 @@
 const fs = require('fs');
-const path = '../node_modules/minecraft-data/minecraft-data/data/pc/1.19.2/effects.json'
+const path = './node_modules/minecraft-data/minecraft-data/data/pc/1.19.2/effects.json'
 const { compound } = require('./compound.js')
+const { loadOrCreateBlacklist } = require('../blacklist.js')
 const https = require('https')
 const sharp = require('sharp')
 
@@ -82,6 +83,7 @@ async function head(index, base64Data) {
 
 async function player(bot) {
     const playerDataList = [];
+    const blacklist = loadOrCreateBlacklist()
     const nearbyPlayers = Object.values(bot.entities)
         .filter(entity => entity.type === 'player' && entity !== bot.entity);
 
@@ -133,7 +135,7 @@ async function player(bot) {
         });
 
         // Wait for the previous compound to finish before processing the next player
-        await compound(playerDataList); // This is where the wait happens
+        await compound(playerDataList, bot); // This is where the wait happens
     }
 
     return playerDataList;

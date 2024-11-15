@@ -1,9 +1,10 @@
 
 // Импортируем библиотеку anarflayer
 const anarflayer = require("anarflayer");
-const { save } = require('./Save_sword/save.js')
 const { player } = require('./player_detector/player.js')
 const { loadOrCreateBlacklist } = require('./blacklist.js')
+const { startAutoclicker } = require('./tapemouse/tapemouse.js')
+const { save } = require('./Save_sword/save.js')
 const path = require('path')
 const fs = require('fs')
 
@@ -43,11 +44,13 @@ const bot = anarflayer.createBot({
   hideErrors: false
 });
 
-bot.on('spawn', () => {
+bot.on('spawn', async () => {
   if (spawn) return
   spawn = true
 
-  bot.joinAnarchy('lite', process.argv[5])
+  await bot.joinAnarchy('lite', process.argv[5])
+  join = true
+  startAutoclicker(bot, bot)
 })
 
 // Обработчик события сообщений
@@ -99,15 +102,10 @@ bot.on('messagestr', (message) => {
   }
 });
 
-bot.on('messagestr', (message) => {
-  if (message.includes('test_ec')) {
-    save(bot)
-  }
-})
-
 bot.on('entityMoved', (entity) => {
   if (entity.type === 'player' && entity !== bot.entity) {
     if (join)
-    player(bot, entity); // Вызов функции player, если все условия выполнены
-  }
+      save(bot)
+      player(bot, entity); // Вызов функции player, если все условия выполнены
+    }
 });

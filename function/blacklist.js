@@ -1,4 +1,4 @@
-const path = '../json/blacklist.json';
+const path = './json/blacklist.json';
 const fs = require('fs');
 
 function loadOrCreateBlacklist() {

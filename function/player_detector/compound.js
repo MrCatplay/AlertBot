@@ -1,5 +1,5 @@
 const { promises: fs } = require('fs');
-const { join } = require('path');
+const path = require('path');
 const { loadImage, createCanvas } = require('canvas');
 const { startdiscordbot } = require('../discord_send/discordbot.js')
 let function_start = false
@@ -13,12 +13,12 @@ const equipmentPositions = {
   5: { x: 102, y: 154 }
 };
 
-async function compound(playerDataList) {
+async function compound(playerDataList, bot) {
   if (!playerDataList) return;
   function_start = true
 
   for (const playerData of playerDataList) {
-    const mainImagePath = join(__dirname, 'assets', 'main.jpg');
+    const mainImagePath = path.resolve('assets', 'main.jpg');
     const mainImage = await loadImage(mainImagePath);
 
     const canvas = createCanvas(mainImage.width, mainImage.height);
@@ -34,7 +34,7 @@ async function compound(playerDataList) {
       if (equipmentItemString == null) continue
       // console.log(equipmentItemString)
       const [number, equipmentFilename] = equipmentItemString.split(':'); // Теперь используем equipmentItemString
-      const equipmentImagePath = join(__dirname, 'assets', 'png_files', equipmentFilename.replaceAll('_', '-').trim());
+      const equipmentImagePath = path.resolve('assets', 'png_files', equipmentFilename.replaceAll('_', '-').trim());
 
       try {
         const equipmentImage = await loadImage(equipmentImagePath);
@@ -57,7 +57,7 @@ async function compound(playerDataList) {
       if (effectItem) {
         const [_, effectFilename] = effectItem.split(':');
         const effectFilenameLowercase = effectFilename.toLowerCase();
-        const effectImagePath = join(__dirname, 'assets', 'effects_images', effectFilenameLowercase.trim());
+        const effectImagePath = path.resolve('assets', 'effects_images', effectFilenameLowercase.trim());
         const effectImage = await loadImage(effectImagePath);
 
         ctx.drawImage(effectImage, x, y, 30, 30);
@@ -72,10 +72,10 @@ async function compound(playerDataList) {
     }
 
     const outputFilename = `./player/${playerDataList[0].username}_output.png`;
-    const outputPath = join(__dirname, outputFilename);
+    const outputPath = path.resolve('assets', outputFilename);
     await fs.writeFile(outputPath, canvas.toBuffer());
     // console.log(`Image for ${playerData.username} saved as ${outputFilename}`);
-    await startdiscordbot(process.argv[2], playerDataList[0])
+    await startdiscordbot(process.argv[2], playerDataList[0], bot)
   }
 }
 

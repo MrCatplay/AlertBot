@@ -1419,8 +1419,8 @@
     "function": {
         "discordbot.js": 1977,
         "compound.js": 3003,
-        "blacklist.js": 701,
-        "main.js": 4024,
+        "blacklist.js": 686,
+        "main.js": 4048,
         "player.js": 5043
     }
 }

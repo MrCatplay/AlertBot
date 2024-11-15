@@ -3,6 +3,9 @@ async function open_enderChest(bot, ec_block) {
         await bot.chat('/ec')
         return 'ec'
     } else {
+        yaw = bot.entity.yaw
+        pitch = bot.entity.pitch
+
         await bot.openChest(ec_block)
         return 'block'
     }
