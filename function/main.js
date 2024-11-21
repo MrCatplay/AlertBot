@@ -6,7 +6,8 @@ const { loadOrCreateBlacklist } = require('./blacklist.js')
 const { startAutoclicker } = require('./tapemouse/tapemouse.js')
 const { save } = require('./Save_sword/save.js')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs');
+const { joinAnarchy } = require("./anarchy/joinAnarchy.js");
 
 const blacklistFilePath = path.join(__dirname, 'json', 'blacklist.json');
 
@@ -48,7 +49,7 @@ bot.on('spawn', async () => {
   if (spawn) return
   spawn = true
 
-  await bot.joinAnarchy('lite', process.argv[5])
+  await joinAnarchy('lite', process.argv[5])
   join = true
   startAutoclicker(bot, bot)
 })
