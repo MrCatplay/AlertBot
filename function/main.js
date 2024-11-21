@@ -10,6 +10,7 @@ const fs = require('fs');
 const { joinAnarchy } = require("./anarchy/joinAnarchy.js");
 
 const blacklistFilePath = ('./json/blacklist.json')
+fs.mkdirSync('./assets/player', { recursive: true });
 
 global.cooldown = 10 * 60 * 1000;
 global.playerEvents = {};
