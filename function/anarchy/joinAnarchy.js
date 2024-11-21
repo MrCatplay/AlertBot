@@ -1,10 +1,6 @@
-async function joinAnarchy(mode, Anarchy) {
+async function joinAnarchy(bot, mode, Anarchy) {
     let anarchymenu = false
     let clickWindow = false
-
-    //console.log(password)
-    await new Promise(resolve => setTimeout(resolve, 500));
-    bot.chat('/login ' + password);
 
     await new Promise(resolve => setTimeout(resolve, 500));
     clickWindow = true;

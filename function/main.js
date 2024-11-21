@@ -2,14 +2,14 @@
 // Импортируем библиотеку anarflayer
 const anarflayer = require("anarflayer");
 const { player } = require('./player_detector/player.js')
-const { loadOrCreateBlacklist } = require('./blacklist.js')
+const { loadOrCreateBlacklist } = require('../json/blacklist.js')
 const { startAutoclicker } = require('./tapemouse/tapemouse.js')
 const { save } = require('./Save_sword/save.js')
 const path = require('path')
 const fs = require('fs');
 const { joinAnarchy } = require("./anarchy/joinAnarchy.js");
 
-const blacklistFilePath = path.join(__dirname, 'json', 'blacklist.json');
+const blacklistFilePath = ('../json/blacklist.js')
 
 global.cooldown = 10 * 60 * 1000;
 global.playerEvents = {};
@@ -38,7 +38,7 @@ function writeBlacklist(blacklist) {
 
 // Создание клиента для подключения к серверу Minecraft
 const bot = anarflayer.createBot({
-  host: "fre.holyworld.me", // Адрес сервера
+  host: "fra.holyworld.me", // Адрес сервера
   username: process.argv[3], // Имя пользователя
   port: 25565, // Порт
   version: '1.19.2', // Версия
@@ -49,7 +49,7 @@ bot.on('spawn', async () => {
   if (spawn) return
   spawn = true
 
-  await joinAnarchy('lite', process.argv[5])
+  await joinAnarchy(bot, 'lite', process.argv[5])
   join = true
   startAutoclicker(bot, bot)
 })
@@ -65,10 +65,10 @@ bot.on('messagestr', (message) => {
     if (arrowIndex !== -1) {
       const textBeforeArrow = parts.slice(0, arrowIndex).join(' ').replace('[', '');
       if (textBeforeArrow === process.argv[4]) {
-        const blacklistCommandIndex = parts.findIndex(element => element.startsWith(blacklistFilePath));
-        if (blacklistCommandIndex !== -1) {
+        const blacklistCommandIndex = parts.indexOf('/blacklist');
+        if (blacklistCommandIndex) {
           // Получаем текст после "/blacklist"
-          const blacklistCommandArgs = parts.slice(blacklistCommandIndex + 1).join(' ').trim();
+          const blacklistCommandIndex = parts.indexOf('/blacklist');
 
           const blacklist = readBlacklist();
 
