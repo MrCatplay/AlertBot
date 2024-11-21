@@ -2,14 +2,14 @@
 // Импортируем библиотеку anarflayer
 const anarflayer = require("anarflayer");
 const { player } = require('./player_detector/player.js')
-const { loadOrCreateBlacklist } = require('../json/blacklist.js')
+const { loadOrCreateBlacklist } = require('./blacklist.js')
 const { startAutoclicker } = require('./tapemouse/tapemouse.js')
 const { save } = require('./Save_sword/save.js')
 const path = require('path')
 const fs = require('fs');
 const { joinAnarchy } = require("./anarchy/joinAnarchy.js");
 
-const blacklistFilePath = ('../json/blacklist.js')
+const blacklistFilePath = ('./json/blacklist.json')
 
 global.cooldown = 10 * 60 * 1000;
 global.playerEvents = {};
@@ -45,7 +45,7 @@ const bot = anarflayer.createBot({
   hideErrors: false
 });
 
-bot.on('spawn', async () => {
+bot.on('login', async () => {
   if (spawn) return
   spawn = true
 
@@ -68,7 +68,7 @@ bot.on('messagestr', (message) => {
         const blacklistCommandIndex = parts.indexOf('/blacklist');
         if (blacklistCommandIndex) {
           // Получаем текст после "/blacklist"
-          const blacklistCommandIndex = parts.indexOf('/blacklist');
+          const blacklistCommandArgs = parts.slice(blacklistCommandIndex + 1).join(' ').trim();
 
           const blacklist = readBlacklist();
 
